@@ -4,10 +4,11 @@ import Welcome from '../screens/Welcome';
 import OverView from '../screens/OverView';
 
 export type RootStackParamList = {
-  List: undefined;
+  Welcome: () => {};
   Overview: {
-    barcode: any;
+    data: string;
     coords: {currentLongitude: string; currentLatitude: string};
+    callback: () => {};
   };
 };
 
