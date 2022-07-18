@@ -1,18 +1,21 @@
 'use strict';
-import React, {useState} from 'react';
+import React from 'react';
 import {Text, TouchableOpacity, StyleSheet} from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {RNCamera} from 'react-native-camera';
+import {useNavigation} from '@react-navigation/core';
+import useLocation from '../hooks/useLocation';
 
 function Welcome() {
-  const [barcode, setBarcode] = useState('');
-  console.log(barcode);
+  const navigation = useNavigation();
+  const {coords} = useLocation();
+  const handleBarCodeRead = (barcode: any) => {
+    navigation.navigate('Overview', {barcode, coords});
+  };
   return (
     <QRCodeScanner
-      onRead={e => {
-        setBarcode(e);
-      }}
-      flashMode={RNCamera.Constants.FlashMode.torch}
+      onRead={handleBarCodeRead}
+      flashMode={RNCamera.Constants.FlashMode.auto}
       topContent={
         <Text style={styles.centerText}>
           Go to <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text>{' '}
@@ -20,10 +23,10 @@ function Welcome() {
         </Text>
       }
       bottomContent={
-        <TouchableOpacity style={styles.buttonTouchable}>
-          <Text style={styles.buttonText}>
-            {barcode ? barcode.data : 'opa'}
-          </Text>
+        <TouchableOpacity
+          onPress={handleBarCodeRead}
+          style={styles.buttonTouchable}>
+          <Text style={styles.buttonText}>bom dia</Text>
         </TouchableOpacity>
       }
     />
